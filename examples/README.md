@@ -12,17 +12,15 @@ Contains working example of applying lightmap (/examples/ubq_lightmap.html)
 ### Usage ###
 
 1. Create an html scene
+  - Name a scene in the following format : category_nameofscene.html
+    - ex: ubq_lightmap.html
 
-  a. Name a scene in the following format : category_nameofscene.html
-        ex: ubq_lightmap.html
-
-  b. Go to /examples/files.js and make sure to include your new scene.
-        ex: If you wanted to include ubq_mytest.html, files.js would look like this:
-
-        "ubq": [
-          "ubq_lightmap",
-          "ubq_mytest",
-        ],
+  -   Go to /examples/files.js and make sure to include your new scene.
+    - ex: If you wanted to include ubq_mytest.html, files.js would look like this:
+      - "ubq": [
+        - "ubq_lightmap",
+        - "ubq_mytest",
+        - ],
 
 2. Go to root directory and call 'python -m SimpleHTTPServer 8000' (or server/portnumber of your choice)
 
