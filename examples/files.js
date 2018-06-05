@@ -1,4 +1,7 @@
 var files = {
+	"ubq": [
+		"ubq_lightmap",
+	],
 	"webgl": [
 		"webgl_animation_cloth",
 		"webgl_animation_keyframes_json",
