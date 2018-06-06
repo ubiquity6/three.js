@@ -2,6 +2,7 @@ var files = {
 	"ubq": [
 		"ubq_lightmap",
 		"ubq_PirateCoveSide",
+		"ubq_PirateCoveSideAnimated",
 	],
 	"webgl": [
 		"webgl_animation_cloth",
