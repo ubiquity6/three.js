@@ -1,6 +1,7 @@
 var files = {
 	"ubq": [
 		"ubq_lightmap",
+		"ubq_PirateCoveSide",
 	],
 	"webgl": [
 		"webgl_animation_cloth",
