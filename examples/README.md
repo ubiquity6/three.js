@@ -31,4 +31,4 @@ Contains working example of applying lightmap (/examples/ubq_lightmap.html)
 
 ### NOTES ###
 
-1. If you find that your html scene is not updating, make sure to clear your cached data. This shouldn't happen to often https://stackoverflow.com/questions/25723801/file-not-updating-on-localhost
+1. If you find that your html scene is not updating, make sure to clear your cached data. This shouldn't happen too often https://stackoverflow.com/questions/25723801/file-not-updating-on-localhost
