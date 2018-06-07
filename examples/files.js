@@ -11,6 +11,7 @@ var files = {
 		"ubq_PyreneesBlenderSpec",
 		"ubq_OpacityTestBabylon",
 		"ubq_OpacityTestZiriax",
+		"ubq_OpacityTestZiriax_Phong",
 		"ubq_OpacityTestBlender",
 		
 	],

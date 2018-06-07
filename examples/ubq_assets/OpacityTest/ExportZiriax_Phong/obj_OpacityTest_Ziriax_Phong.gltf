@@ -134,9 +134,9 @@
         {
             "pbrMetallicRoughness": {
                 "baseColorFactor": [
-                    1.0,
-                    1.0,
-                    1.0,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
                     1.0
                 ],
                 "baseColorTexture": {
@@ -145,11 +145,7 @@
                 "metallicFactor": 0.0,
                 "roughnessFactor": 1.0
             },
-            "emissiveFactor": [
-                0.0,
-                0.0,
-                0.0
-            ]
+            "alphaMode": "BLEND"
         }
     ],
     "textures": [
@@ -203,7 +199,7 @@
     "buffers": [
         {
             "byteLength": 15240,
-            "uri": "obj_OpacityTest_Ziriax0.bin"
+            "uri": "obj_OpacityTest_Ziriax_Phong0.bin"
         }
     ]
 }
