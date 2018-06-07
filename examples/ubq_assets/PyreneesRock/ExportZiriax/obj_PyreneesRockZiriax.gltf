@@ -113,7 +113,7 @@
                 1.0
             ],
             "min": [
-                -0.999979853630066,
+                -0.9999799132347108,
                 -0.9043930768966676,
                 -0.9989992380142212,
                 -1.0
@@ -244,7 +244,7 @@
                 "index": 2
             },
             "occlusionTexture": {
-                "index": 2
+                "index": 3
             }
         },
         {
@@ -256,12 +256,12 @@
                     1.0
                 ],
                 "baseColorTexture": {
-                    "index": 3
+                    "index": 4
                 },
                 "metallicFactor": 1.0,
                 "roughnessFactor": 1.0,
                 "metallicRoughnessTexture": {
-                    "index": 4
+                    "index": 5
                 }
             },
             "emissiveFactor": [
@@ -270,10 +270,10 @@
                 0.0
             ],
             "normalTexture": {
-                "index": 5
+                "index": 6
             },
             "occlusionTexture": {
-                "index": 5
+                "index": 7
             }
         }
     ],
@@ -301,6 +301,14 @@
         {
             "sampler": 0,
             "source": 5
+        },
+        {
+            "sampler": 0,
+            "source": 6
+        },
+        {
+            "sampler": 0,
+            "source": 7
         }
     ],
     "images": [
@@ -308,19 +316,25 @@
             "uri": "tex_PyreneesRock_Rock_Albedo.png"
         },
         {
-            "uri": "tex_PyreneesRock_Rock_Normal-tex_PyreneesRock_Rock_Metal.png"
+            "uri": "tex_PyreneesRock_Rock_Rough-tex_PyreneesRock_Rock_Metal.png"
         },
         {
             "uri": "tex_PyreneesRock_Rock_Normal.png"
         },
         {
+            "uri": "tex_PyreneesRock_Rock_Occlusion.png"
+        },
+        {
             "uri": "tex_PyreneesRock_Castle_Albedo.png"
         },
         {
-            "uri": "tex_PyreneesRock_Castle_Normal-tex_PyreneesRock_Castle_Metal.png"
+            "uri": "tex_PyreneesRock_Castle_Rough-tex_PyreneesRock_Castle_Metal.png"
         },
         {
             "uri": "tex_PyreneesRock_Castle_Normal.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Castle_Occlusion.png"
         }
     ],
     "samplers": [
