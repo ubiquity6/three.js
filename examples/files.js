@@ -9,6 +9,9 @@ var files = {
 		"ubq_PyreneesZiriax",
 		"ubq_PyreneesBlenderMetal",
 		"ubq_PyreneesBlenderSpec",
+		"ubq_OpacityTestBabylon",
+		"ubq_OpacityTestZiriax",
+		"ubq_OpacityTestBlender",
 		
 	],
 	"webgl": [
