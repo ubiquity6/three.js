@@ -1,0 +1,393 @@
+{
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 6600,
+            "max" : [
+                1137
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 1138,
+            "max" : [
+                184.06756591796875,
+                149.85797119140625,
+                -1.117506504058838
+            ],
+            "min" : [
+                -168.91131591796875,
+                -167.1284637451172,
+                -475.0403747558594
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 1138,
+            "max" : [
+                0.9987792372703552,
+                0.999969482421875,
+                0.9979552626609802
+            ],
+            "min" : [
+                -0.99908447265625,
+                -0.9998779296875,
+                -0.999847412109375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 1138,
+            "max" : [
+                0.9947847127914429,
+                0.9480631947517395
+            ],
+            "min" : [
+                0.006887555122375488,
+                0.03456908464431763
+            ],
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5123,
+            "count" : 837,
+            "max" : [
+                390
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 391,
+            "max" : [
+                66.07659912109375,
+                31.300098419189453,
+                -452.52734375
+            ],
+            "min" : [
+                -59.266334533691406,
+                -44.83173751831055,
+                -550.855224609375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 391,
+            "max" : [
+                1.0,
+                1.0,
+                0.021179845556616783
+            ],
+            "min" : [
+                -1.0,
+                -1.0,
+                -1.0
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5126,
+            "count" : 391,
+            "max" : [
+                0.9921875,
+                0.9921875
+            ],
+            "min" : [
+                0.007812440395355225,
+                0.0056143999099731445
+            ],
+            "type" : "VEC2"
+        }
+    ],
+    "asset" : {
+        "generator" : "Khronos Blender glTF 2.0 exporter",
+        "version" : "2.0"
+    },
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 13200,
+            "byteOffset" : 0,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 13656,
+            "byteOffset" : 13200,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 13656,
+            "byteOffset" : 26856,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 9104,
+            "byteOffset" : 40512,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1674,
+            "byteOffset" : 49616,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4692,
+            "byteOffset" : 51292,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 4692,
+            "byteOffset" : 55984,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 3128,
+            "byteOffset" : 60676,
+            "target" : 34962
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 63804,
+            "uri" : "obj_PyreneesRock_Blender_Spec.bin"
+        }
+    ],
+    "extensionsRequired" : [
+        "KHR_materials_pbrSpecularGlossiness"
+    ],
+    "extensionsUsed" : [
+        "KHR_materials_pbrSpecularGlossiness"
+    ],
+    "images" : [
+        {
+            "name" : "tex_PyreneesRock_Castle_Occlusion",
+            "uri" : "tex_PyreneesRock_Castle_Occlusion.png"
+        },
+        {
+            "name" : "_NormalTexture",
+            "uri" : "_NormalTexture.png"
+        },
+        {
+            "name" : "_BaseColorTexture",
+            "uri" : "_BaseColorTexture.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Castle_Gloss",
+            "uri" : "tex_PyreneesRock_Castle_Gloss.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Castle_Specular",
+            "uri" : "tex_PyreneesRock_Castle_Specular.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Rock_Occlusion",
+            "uri" : "tex_PyreneesRock_Rock_Occlusion.png"
+        },
+        {
+            "name" : "_OcclusionTexture1",
+            "uri" : "_OcclusionTexture1.png"
+        },
+        {
+            "name" : "_BaseColorTexture1",
+            "uri" : "_BaseColorTexture1.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Rock_Gloss",
+            "uri" : "tex_PyreneesRock_Rock_Gloss.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Rock_Specular",
+            "uri" : "tex_PyreneesRock_Rock_Specular.png"
+        }
+    ],
+    "materials" : [
+        {
+            "extensions" : {
+                "KHR_materials_pbrSpecularGlossiness" : {
+                    "diffuseTexture" : {
+                        "index" : 2
+                    }
+                }
+            },
+            "name" : "mat_PyreneesRock_Castle_Ziriax",
+            "normalTexture" : {
+                "index" : 1
+            },
+            "occlusionTexture" : {
+                "index" : 0
+            }
+        },
+        {
+            "extensions" : {
+                "KHR_materials_pbrSpecularGlossiness" : {
+                    "diffuseTexture" : {
+                        "index" : 7
+                    }
+                }
+            },
+            "name" : "mat_PyreneesRock_Rock_Ziriax",
+            "normalTexture" : {
+                "index" : 6
+            },
+            "occlusionTexture" : {
+                "index" : 5
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Untitled.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "NORMAL" : 2,
+                        "POSITION" : 1,
+                        "TEXCOORD_0" : 3
+                    },
+                    "indices" : 0,
+                    "material" : 1
+                },
+                {
+                    "attributes" : {
+                        "NORMAL" : 6,
+                        "POSITION" : 5,
+                        "TEXCOORD_0" : 7
+                    },
+                    "indices" : 4,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0.483536034822464,
+                0.33687159419059753,
+                -0.20870360732078552,
+                0.7804827094078064
+            ],
+            "translation" : [
+                7.481131553649902,
+                5.34366512298584,
+                6.5076398849487305
+            ]
+        },
+        {
+            "name" : "Lamp",
+            "rotation" : [
+                0.16907575726509094,
+                0.7558802962303162,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "scale" : [
+                1.0,
+                1.0,
+                0.9999999403953552
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903861999511719,
+                -1.0054539442062378
+            ]
+        },
+        {
+            "mesh" : 0,
+            "name" : "obj_PyreneesRock",
+            "rotation" : [
+                0.7071068286895752,
+                0.0,
+                -0.0,
+                0.7071067094802856
+            ],
+            "scale" : [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+            ]
+        }
+    ],
+    "samplers" : [
+        {}
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                2,
+                1,
+                0
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        },
+        {
+            "sampler" : 0,
+            "source" : 1
+        },
+        {
+            "sampler" : 0,
+            "source" : 2
+        },
+        {
+            "sampler" : 0,
+            "source" : 3
+        },
+        {
+            "sampler" : 0,
+            "source" : 4
+        },
+        {
+            "sampler" : 0,
+            "source" : 5
+        },
+        {
+            "sampler" : 0,
+            "source" : 6
+        },
+        {
+            "sampler" : 0,
+            "source" : 7
+        },
+        {
+            "sampler" : 0,
+            "source" : 8
+        },
+        {
+            "sampler" : 0,
+            "source" : 9
+        }
+    ]
+}

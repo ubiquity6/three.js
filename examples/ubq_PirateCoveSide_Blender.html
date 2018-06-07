@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Lightmap import test</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				margin: 0px;
+				background-color: #000000;
+				color: #fff;
+				font-family:Monospace;
+				font-size: 15px;
+				line-height: 30px;
+				overflow: hidden;
+			}
+			#info {
+				text-align: center;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 15px;
+				z-index:100;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../build/three.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
+		<script src="js/loaders/GLTFLoader.js"></script>
+
+		<script>
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 90000 );
+			var controls = new THREE.OrbitControls(camera);
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+      var cube = new THREE.Mesh( geometry, material );
+
+			//Load equirectangular texture
+			var textureLoader = new THREE.TextureLoader();
+			var textureEquirec = textureLoader.load('./ubq_assets/tex_reflection.png');
+			textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+			textureEquirec.magFilter = THREE.LinearFilter;
+			textureEquirec.minFilter = THREE.LinearMipMapLinearFilter;
+
+			var clock = new THREE.Clock();
+			var equirectShader = THREE.ShaderLib[ "equirect"];
+
+			//Create material
+			var equiRectMaterial = new THREE.ShaderMaterial( {
+				fragmentShader: equirectShader.fragmentShader,
+				vertexShader: equirectShader.vertexShader,
+				uniforms: equirectShader.uniforms,
+				depthWrite: false,
+				side: THREE.BackSide
+			});
+
+			equiRectMaterial.uniforms [ "tEquirect"].value = textureEquirec;
+
+			//Skybox with equirect texture on it
+			var cubeMesh = new THREE.Mesh ( new THREE.BoxGeometry(10000, 10000, 10000), equiRectMaterial);
+			cubeMesh.visible =true;
+			scene.add(cubeMesh);
+
+			var mixers = [];
+      camera.position.z = 500;
+      camera.position.y = 500;
+			controls.update();
+			var loader = new THREE.GLTFLoader();
+
+			//Add directional light
+			const directionalLight = new THREE.DirectionalLight(0xffffff, 0);
+			scene.add(directionalLight);
+
+			//Add ambient light
+			const ambientLight = new THREE.AmbientLight(0xffffff, 0);
+    	scene.add(ambientLight);
+
+			const promise = new Promise((resolve) => {
+				loader.load(
+					// resource URL
+					'./ubq_assets/obj_PirateCoveSide_Blender.gltf',
+					function ( gltf ) {
+
+						gltf.scene.mixer = new THREE.AnimationMixer(gltf.scene);
+						mixers.push(gltf.scene.mixer);
+						var action = gltf.scene.mixer.clipAction(gltf.animations[0]);
+						action.play();
+
+						gltf.animations; // Array<THREE.AnimationClip>
+						gltf.scene; // THREE.Scene
+						gltf.scenes; // Array<THREE.Scene>
+						gltf.cameras; // Array<THREE.Camera>
+						gltf.asset; // Object
+
+						scene.add( gltf.scene );
+
+
+						gltf.scene.traverse( function (child) {
+							if (child.isMesh) {
+
+								//Load Lightmap
+								var texture = new THREE.TextureLoader().load('./ubq_assets/tex_PirateCove_Lightmap.png');
+								//Three's texture loader flips y axis by default. Be sure to set .flipY to false
+								texture.flipY = false;
+								child.material.lightMap = texture;
+
+								//Apply environment map
+								child.material.envMap = textureEquirec;
+
+								//TODO: Roughness currently set to 1. Investigate why that's the case
+								//child.material.roughness = 0;
+								child.material.needsUpdate = true;
+							}
+						});
+
+
+					},
+				);
+			})
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+				if (mixers.length > 0) {
+					for (var i = 0; i < mixers.length; i ++) {
+						mixers[i].update(clock.getDelta());
+					}
+				}
+
+				controls.update();
+				renderer.render(scene, camera);
+			};
+			animate();
+
+		</script>
+	</body>
+</html>

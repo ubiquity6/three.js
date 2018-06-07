@@ -30,7 +30,7 @@
 
 		<script>
 			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 90000 );
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, 90000 );
 			var controls = new THREE.OrbitControls(camera);
 
 			var renderer = new THREE.WebGLRenderer();
@@ -64,7 +64,9 @@
 			//Skybox with equirect texture on it
 			var cubeMesh = new THREE.Mesh ( new THREE.BoxGeometry(10000, 10000, 10000), equiRectMaterial);
 			cubeMesh.visible =true;
+			
 			scene.add(cubeMesh);
+			
 
 
       camera.position.z = 500;
@@ -73,11 +75,11 @@
 			var loader = new THREE.GLTFLoader();
 
 			//Add directional light
-			const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+			const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 			scene.add(directionalLight);
 
 			//Add ambient light
-			const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
+			const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     	scene.add(ambientLight);
 
 			loader.load(
@@ -98,9 +100,11 @@
 
 							//Load Lightmap
 							var texture = new THREE.TextureLoader().load('./ubq_assets/tex_PirateCove_Lightmap.png');
+							
 							//Three's texture loader flips y axis by default. Be sure to set .flipY to false
 							texture.flipY = false;
 							child.material.lightMap = texture;
+							child.material.lightMapIntensity = .1;
 
 							//Apply environment map
 							child.material.envMap = textureEquirec;

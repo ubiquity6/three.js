@@ -3,6 +3,13 @@ var files = {
 		"ubq_lightmap",
 		"ubq_PirateCoveSide",
 		"ubq_PirateCoveSideAnimated",
+		"ubq_PirateCoveSide_Blender",
+		"ubq_lightmap_lights",
+		"ubq_PyreneesBabylon",
+		"ubq_PyreneesZiriax",
+		"ubq_PyreneesBlenderMetal",
+		"ubq_PyreneesBlenderSpec",
+		
 	],
 	"webgl": [
 		"webgl_animation_cloth",
