@@ -199,12 +199,12 @@
             "uri" : "_BaseColorTexture1.png"
         },
         {
-            "name" : "tex_PyreneesRock_Rock_MetallicRoughness",
-            "uri" : "tex_PyreneesRock_Rock_MetallicRoughness.png"
-        },
-        {
             "name" : "_OcclusionTexture1",
             "uri" : "_OcclusionTexture1.png"
+        },
+        {
+            "name" : "tex_PyreneesRock_Rock_MetallicRoughness",
+            "uri" : "tex_PyreneesRock_Rock_MetallicRoughness.png"
         },
         {
             "name" : "tex_PyreneesRock_Rock_Occlusion",
@@ -232,7 +232,7 @@
         {
             "name" : "mat_PyreneesRock_Rock_Ziriax",
             "normalTexture" : {
-                "index" : 6
+                "index" : 5
             },
             "occlusionTexture" : {
                 "index" : 7
@@ -242,7 +242,7 @@
                     "index" : 4
                 },
                 "metallicRoughnessTexture" : {
-                    "index" : 5
+                    "index" : 6
                 }
             }
         }
@@ -314,11 +314,6 @@
                 0.0,
                 -0.0,
                 0.7071067094802856
-            ],
-            "scale" : [
-                0.009999999776482582,
-                0.009999999776482582,
-                0.009999999776482582
             ]
         }
     ],
