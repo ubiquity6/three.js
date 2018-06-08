@@ -7,6 +7,7 @@ var files = {
 		"ubq_lightmap_lights",
 		"ubq_PyreneesBabylon",
 		"ubq_PyreneesZiriax",
+		"ubq_PyreneesZiriax_Lightmap",
 		"ubq_PyreneesBlenderMetal",
 		"ubq_PyreneesBlenderSpec",
 		"ubq_OpacityTestBabylon",

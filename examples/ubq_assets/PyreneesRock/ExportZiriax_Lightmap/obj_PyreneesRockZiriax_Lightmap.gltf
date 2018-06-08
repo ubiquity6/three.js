@@ -1,0 +1,415 @@
+{
+    "asset": {
+        "copyright": "(C)2018 Ubiquity6",
+        "generator": "Maya2glTF v0.9.6-beta 46c9da3",
+        "version": "2.0"
+    },
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0,
+    "nodes": [
+        {
+            "children": [
+                1
+            ],
+            "name": "obj_PyreneesRock"
+        },
+        {
+            "mesh": 0,
+            "name": "obj_PyreneesRockShape"
+        }
+    ],
+    "meshes": [
+        {
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TANGENT": 3,
+                        "TEXCOORD_0": 4,
+                        "TEXCOORD_1": 5
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 0
+                },
+                {
+                    "attributes": {
+                        "NORMAL": 7,
+                        "POSITION": 8,
+                        "TANGENT": 9,
+                        "TEXCOORD_0": 10,
+                        "TEXCOORD_1": 11
+                    },
+                    "indices": 6,
+                    "mode": 4,
+                    "material": 1
+                }
+            ],
+            "name": "obj_PyreneesRockShape"
+        }
+    ],
+    "accessors": [
+        {
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5123,
+            "count": 6600,
+            "max": [
+                1140
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1141,
+            "max": [
+                0.9990859031677246,
+                0.9999761581420898,
+                0.9999104738235474
+            ],
+            "min": [
+                -0.998959481716156,
+                -0.9978578090667724,
+                -0.9996956586837769
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 13692,
+            "componentType": 5126,
+            "count": 1141,
+            "max": [
+                184.06756591796876,
+                475.0403747558594,
+                149.85797119140626
+            ],
+            "min": [
+                -168.91131591796876,
+                1.117506504058838,
+                -167.1284637451172
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1141,
+            "max": [
+                0.999919295310974,
+                0.9571160078048706,
+                0.999150574207306,
+                1.0
+            ],
+            "min": [
+                -0.999979853630066,
+                -0.9043930172920228,
+                -0.9989992380142212,
+                -1.0
+            ],
+            "type": "VEC4"
+        },
+        {
+            "bufferView": 3,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1141,
+            "max": [
+                0.9947847127914428,
+                0.9480631947517396
+            ],
+            "min": [
+                0.006887555122375488,
+                0.03456908464431763
+            ],
+            "type": "VEC2"
+        },
+        {
+            "bufferView": 3,
+            "byteOffset": 9128,
+            "componentType": 5126,
+            "count": 1141,
+            "max": [
+                0.9765338897705078,
+                0.9921875
+            ],
+            "min": [
+                0.0078125,
+                0.0964248776435852
+            ],
+            "type": "VEC2"
+        },
+        {
+            "bufferView": 0,
+            "byteOffset": 13200,
+            "componentType": 5123,
+            "count": 837,
+            "max": [
+                390
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 27384,
+            "componentType": 5126,
+            "count": 391,
+            "max": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -0.021205034106969838,
+                -1.0
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 32076,
+            "componentType": 5126,
+            "count": 391,
+            "max": [
+                66.07659912109375,
+                550.855224609375,
+                31.300098419189458
+            ],
+            "min": [
+                -59.266334533691409,
+                452.52734375,
+                -44.83173751831055
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 18256,
+            "componentType": 5126,
+            "count": 391,
+            "max": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -1.0,
+                -1.0,
+                1.0
+            ],
+            "type": "VEC4"
+        },
+        {
+            "bufferView": 3,
+            "byteOffset": 18256,
+            "componentType": 5126,
+            "count": 391,
+            "max": [
+                0.9921875,
+                0.9921875
+            ],
+            "min": [
+                0.007812440395355225,
+                0.0056143999099731449
+            ],
+            "type": "VEC2"
+        },
+        {
+            "bufferView": 3,
+            "byteOffset": 21384,
+            "componentType": 5126,
+            "count": 391,
+            "max": [
+                0.9784667491912842,
+                0.9921875
+            ],
+            "min": [
+                0.0078125,
+                0.0078125
+            ],
+            "type": "VEC2"
+        }
+    ],
+    "materials": [
+        {
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "baseColorTexture": {
+                    "index": 0
+                },
+                "metallicFactor": 0.0,
+                "roughnessFactor": 1.0,
+                "metallicRoughnessTexture": {
+                    "index": 1
+                }
+            },
+            "emissiveFactor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "normalTexture": {
+                "index": 2
+            },
+            "occlusionTexture": {
+                "index": 3
+            }
+        },
+        {
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "baseColorTexture": {
+                    "index": 4
+                },
+                "metallicFactor": 1.0,
+                "roughnessFactor": 1.0,
+                "metallicRoughnessTexture": {
+                    "index": 5
+                }
+            },
+            "emissiveFactor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "normalTexture": {
+                "index": 6
+            },
+            "occlusionTexture": {
+                "index": 7
+            }
+        }
+    ],
+    "textures": [
+        {
+            "sampler": 0,
+            "source": 0
+        },
+        {
+            "sampler": 0,
+            "source": 1
+        },
+        {
+            "sampler": 0,
+            "source": 2
+        },
+        {
+            "sampler": 0,
+            "source": 3
+        },
+        {
+            "sampler": 0,
+            "source": 4
+        },
+        {
+            "sampler": 0,
+            "source": 5
+        },
+        {
+            "sampler": 0,
+            "source": 6
+        },
+        {
+            "sampler": 0,
+            "source": 7
+        }
+    ],
+    "images": [
+        {
+            "uri": "tex_PyreneesRock_Rock_Albedo.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Rock_Rough-tex_PyreneesRock_Rock_Metal.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Rock_Normal.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Rock_Occlusion.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Castle_Albedo.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Castle_Rough-tex_PyreneesRock_Castle_Metal.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Castle_Normal.png"
+        },
+        {
+            "uri": "tex_PyreneesRock_Castle_Occlusion.png"
+        }
+    ],
+    "samplers": [
+        {
+            "magFilter": 9729,
+            "minFilter": 9987,
+            "wrapS": 10497,
+            "wrapT": 10497
+        }
+    ],
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteOffset": 85792,
+            "byteLength": 14874,
+            "target": 34963
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 24512,
+            "byteLength": 36768,
+            "byteStride": 12,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 24512,
+            "byteStride": 16,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 61280,
+            "byteLength": 24512,
+            "byteStride": 8,
+            "target": 34962
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 100666,
+            "uri": "obj_PyreneesRockZiriax_Lightmap0.bin"
+        }
+    ]
+}
