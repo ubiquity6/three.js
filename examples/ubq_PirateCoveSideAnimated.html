@@ -34,6 +34,7 @@
 			var controls = new THREE.OrbitControls(camera);
 
 			var renderer = new THREE.WebGLRenderer();
+	
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
@@ -68,23 +69,31 @@
 			scene.add(cubeMesh);
 
 			var mixers = [];
-      camera.position.z = 500;
-      camera.position.y = 500;
+     		camera.position.z = 500;
+      		camera.position.y = 500;
 			controls.update();
 			var loader = new THREE.GLTFLoader();
 
 			//Add directional light
-			const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+			const directionalLight = new THREE.DirectionalLight(0x83FDFF, 1);
+			
 			scene.add(directionalLight);
+			
+
 
 			//Add ambient light
-			const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
-    	scene.add(ambientLight);
+			const ambientLight = new THREE.AmbientLight(0x0DFBFF, .4);
+    		scene.add(ambientLight);
+
+ 			var light = new THREE.PointLight( 0xFF560D, 5, 400, 2 );
+			light.position.set( 310, 150, 20 );
+			scene.add( light );
+
 
 			const promise = new Promise((resolve) => {
 				loader.load(
 					// resource URL
-					'./ubq_assets/obj_PirateCoveSide_Babylon.gltf',
+					'./ubq_assets/PirateCoveSide/ExportBabylon/obj_PirateCoveSide_Babylon.gltf',
 					function ( gltf ) {
 
 						gltf.scene.mixer = new THREE.AnimationMixer(gltf.scene);
@@ -105,16 +114,18 @@
 							if (child.isMesh) {
 
 								//Load Lightmap
-								var texture = new THREE.TextureLoader().load('./ubq_assets/tex_PirateCove_Lightmap.png');
+								//var texture = new THREE.TextureLoader().load('./ubq_assets/PirateCoveSide/ExportBabylon/tex_PirateCove_Lightmap.png');
 								//Three's texture loader flips y axis by default. Be sure to set .flipY to false
 								texture.flipY = false;
-								child.material.lightMap = texture;
+								//child.material.lightMap = texture;
+								//child.material.lightMapIntensity = 0;
+								
 
 								//Apply environment map
 								child.material.envMap = textureEquirec;
-
+								child.material.envMapIntensity = 3;
 								//TODO: Roughness currently set to 1. Investigate why that's the case
-								child.material.roughness = 0;
+								//child.material.roughness = 1;
 								child.material.needsUpdate = true;
 							}
 						});

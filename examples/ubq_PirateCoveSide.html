@@ -104,13 +104,13 @@
 							//Three's texture loader flips y axis by default. Be sure to set .flipY to false
 							texture.flipY = false;
 							child.material.lightMap = texture;
-							child.material.lightMapIntensity = .1;
+							child.material.lightMapIntensity = 0;
 
 							//Apply environment map
 							child.material.envMap = textureEquirec;
 
 							//TODO: Roughness currently set to 1. Investigate why that's the case
-							child.material.roughness = 0;
+							child.material.roughness = 1;
 							child.material.needsUpdate = true;
 						}
 					});
