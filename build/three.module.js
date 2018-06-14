@@ -20122,6 +20122,22 @@ function WebGLExtensions( gl ) {
 					extension = gl.getExtension( 'WEBGL_compressed_texture_etc1' );
 					break;
 
+				case 'ANGLE_instanced_arrays':
+					extension = gl.getExtension( 'ANGLE_instanced_arrays') || gl.getExtension( 'EXT_instanced_arrays');
+					
+					if(!extension && 
+						typeof gl.drawElementsInstanced === 'function' && 
+						typeof gl.vertexAttribDivisor === 'function' && 
+						typeof gl.drawArraysInstanced === 'function') {
+						extension = {
+							drawElementsInstancedANGLE: gl.drawElementsInstanced.bind(gl),
+							vertexAttribDivisorANGLE: gl.vertexAttribDivisor.bind(gl),
+							drawArraysInstancedANGLE: gl.drawArraysInstanced.bind(gl),
+							isWebGL2:true
+						};
+					}
+					break;
+
 				default:
 					extension = gl.getExtension( name );
 
