@@ -551,15 +551,10 @@ Object.assign( Matrix4.prototype, {
 
 		if ( det === 0 ) {
 
-			var msg = "THREE.Matrix4: .getInverse() can't invert matrix, determinant is 0";
-
 			if ( throwOnDegenerate === true ) {
 
+		    var msg = "THREE.Matrix4: .getInverse() can't invert matrix, determinant is 0";
 				throw new Error( msg );
-
-			} else {
-
-				console.warn( msg );
 
 			}
 

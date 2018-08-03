@@ -1512,17 +1512,13 @@ Object.assign( Matrix4.prototype, {
 
 		if ( det === 0 ) {
 
-			var msg = "THREE.Matrix4: .getInverse() can't invert matrix, determinant is 0";
-
 			if ( throwOnDegenerate === true ) {
+
+        var msg = "THREE.Matrix4: .getInverse() can't invert matrix, determinant is 0";
 
 				throw new Error( msg );
 
-			} else {
-
-				console.warn( msg );
-
-			}
+			} 
 
 			return this.identity();
 
@@ -14974,10 +14970,10 @@ function WebGLExtensions( gl ) {
 
 				case 'ANGLE_instanced_arrays':
 					extension = gl.getExtension( 'ANGLE_instanced_arrays') || gl.getExtension( 'EXT_instanced_arrays');
-					
-					if(!extension && 
-						typeof gl.drawElementsInstanced === 'function' && 
-						typeof gl.vertexAttribDivisor === 'function' && 
+
+					if(!extension &&
+						typeof gl.drawElementsInstanced === 'function' &&
+						typeof gl.vertexAttribDivisor === 'function' &&
 						typeof gl.drawArraysInstanced === 'function') {
 						extension = {
 							drawElementsInstancedANGLE: gl.drawElementsInstanced.bind(gl),
