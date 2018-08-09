@@ -1,9 +1,9 @@
 {
-  "name": "three",
+  "name": "@ubiquity6/three",
   "version": "0.93.0",
   "description": "JavaScript 3D library",
   "main": "build/three.js",
-  "repository": "mrdoob/three.js",
+  "repository": "ubiquity6/three.js",
   "jsnext:main": "build/three.module.js",
   "module": "build/three.module.js",
   "files": [
