@@ -3,7 +3,7 @@
   "version": "0.101.0",
   "description": "JavaScript 3D library",
   "main": "build/three.js",
-  "repository": "ubiquity6/three.js",
+  "repository": "mrdoob/three.js",
   "jsnext:main": "build/three.module.js",
   "module": "build/three.module.js",
   "files": [
