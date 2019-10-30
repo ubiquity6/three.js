@@ -1,5 +1,5 @@
 {
-  "name": "@ubiquity6/three",
+  "name": "three",
   "version": "0.101.0",
   "description": "JavaScript 3D library",
   "main": "build/three.js",
