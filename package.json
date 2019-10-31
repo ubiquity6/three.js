@@ -12,10 +12,7 @@
     "README.md",
     "build/three.js",
     "build/three.min.js",
-    "build/three.module.js",
-    "src",
-    "examples/js",
-    "examples/fonts"
+    "build/three.module.js"
   ],
   "directories": {
     "doc": "docs",
