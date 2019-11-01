@@ -176,6 +176,9 @@ Object.assign( FileLoader.prototype, {
 
 				delete loading[ url ];
 
+				console.log( `Response for URL ${url} is of type`, response.constructor.name );
+				console.log( `Is buffer? ${response instanceof Buffer}` );
+
 				if ( this.status === 200 || this.status === 0 ) {
 
 					// Some browsers return HTTP Status 0 when using non-http protocol
