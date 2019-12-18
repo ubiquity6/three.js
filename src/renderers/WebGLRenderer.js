@@ -303,8 +303,9 @@ function WebGLRenderer( parameters ) {
 	var vr = null;
 
 	if ( typeof navigator !== 'undefined' ) {
-
-		vr = ( 'xr' in navigator ) ? new WebXRManager( _this ) : new WebVRManager( _this );
+		// Force WebVR
+		// vr = ( 'xr' in navigator ) ? new WebXRManager( _this ) : new WebVRManager( _this );
+		vr = new WebVRManager( _this );
 
 	}
 
