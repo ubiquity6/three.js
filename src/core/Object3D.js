@@ -26,6 +26,8 @@ function Object3D() {
 
 	this.name = '';
 	this.type = 'Object3D';
+	this.occluded = false;
+	this.occlusionTrackingEnabled = false;
 
 	this.parent = null;
 	this.children = [];

@@ -8202,6 +8202,8 @@
 
 		this.name = '';
 		this.type = 'Object3D';
+		this.occluded = false;
+		this.occlusionTrackingEnabled = false;
 
 		this.parent = null;
 		this.children = [];
@@ -22678,7 +22680,47 @@
 
 			state.disableUnusedAttributes();
 
+			if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+				if ( ! object.occlusionQuery ) {
+
+					object.occlusionQuery = _gl.createQuery();
+
+				}
+
+				if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, 34919 ) ) {
+
+					object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, 34918 );
+					object.queryInProgress = false;
+
+					if ( object.occluded ) {
+
+						console.log( 'Detected occluded object!' );
+
+					}
+
+				}
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.beginQuery( 36202, object.occlusionQuery );
+
+				}
+
+			}
+
 			_gl.drawArrays( 4, 0, object.count );
+
+			if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.endQuery( 36202 );
+					object.queryInProgress = true;
+
+				}
+
+			}
 
 			object.count = 0;
 
@@ -22839,6 +22881,30 @@
 
 			}
 
+			if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+				if ( ! object.occlusionQuery ) {
+
+					object.occlusionQuery = _gl.createQuery();
+
+				}
+
+				if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, 34919 ) ) {
+
+					object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, 34918 );
+					object.queryInProgress = false;
+
+				}
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.beginQuery( 36202, object.occlusionQuery );
+
+				}
+
+			}
+
+
 			if ( geometry && geometry.isInstancedBufferGeometry ) {
 
 				if ( geometry.maxInstancedCount > 0 ) {
@@ -22852,6 +22918,18 @@
 				renderer.render( drawStart, drawCount );
 
 			}
+
+			if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.endQuery( 36202 );
+					object.queryInProgress = true;
+
+				}
+
+			}
+
 
 		};
 

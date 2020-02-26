@@ -643,7 +643,47 @@ function WebGLRenderer( parameters ) {
 
 		state.disableUnusedAttributes();
 
+		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+			if ( ! object.occlusionQuery ) {
+
+				object.occlusionQuery = _gl.createQuery();
+
+			}
+
+			if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT_AVAILABLE ) ) {
+
+				object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT );
+				object.queryInProgress = false;
+
+				if ( object.occluded ) {
+
+					console.log( 'Detected occluded object!' );
+
+				}
+
+			}
+
+			if ( ! object.queryInProgress ) {
+
+				_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
+
+			}
+
+		}
+
 		_gl.drawArrays( _gl.TRIANGLES, 0, object.count );
+
+		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+			if ( ! object.queryInProgress ) {
+
+				_gl.endQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE );
+				object.queryInProgress = true;
+
+			}
+
+		}
 
 		object.count = 0;
 
@@ -804,6 +844,30 @@ function WebGLRenderer( parameters ) {
 
 		}
 
+		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+			if ( ! object.occlusionQuery ) {
+
+				object.occlusionQuery = _gl.createQuery();
+
+			}
+
+			if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT_AVAILABLE ) ) {
+
+				object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT );
+				object.queryInProgress = false;
+
+			}
+
+			if ( ! object.queryInProgress ) {
+
+				_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
+
+			}
+
+		}
+
+
 		if ( geometry && geometry.isInstancedBufferGeometry ) {
 
 			if ( geometry.maxInstancedCount > 0 ) {
@@ -817,6 +881,18 @@ function WebGLRenderer( parameters ) {
 			renderer.render( drawStart, drawCount );
 
 		}
+
+		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+
+			if ( ! object.queryInProgress ) {
+
+				_gl.endQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE );
+				object.queryInProgress = true;
+
+			}
+
+		}
+
 
 	};
 
