@@ -22674,11 +22674,7 @@ function WebGLRenderer( parameters ) {
 
 		state.disableUnusedAttributes();
 
-		this.beginOcclusionQuery( object );
-
 		_gl.drawArrays( 4, 0, object.count );
-
-		this.endOcclusionQuery( object );
 
 		object.count = 0;
 
@@ -22839,8 +22835,6 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		this.beginOcclusionQuery( object );
-
 		if ( geometry && geometry.isInstancedBufferGeometry ) {
 
 			if ( geometry.maxInstancedCount > 0 ) {
@@ -22854,8 +22848,6 @@ function WebGLRenderer( parameters ) {
 			renderer.render( drawStart, drawCount );
 
 		}
-
-		this.endOcclusionQuery( object );
 
 	};
 
@@ -23430,6 +23422,8 @@ function WebGLRenderer( parameters ) {
 		object.modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, object.matrixWorld );
 		object.normalMatrix.getNormalMatrix( object.modelViewMatrix );
 
+		_this.beginOcclusionQuery( object );
+
 		if ( object.isImmediateRenderObject ) {
 
 			state.setMaterial( material );
@@ -23447,6 +23441,8 @@ function WebGLRenderer( parameters ) {
 			_this.renderBufferDirect( camera, scene.fog, geometry, material, object, group );
 
 		}
+
+		_this.endOcclusionQuery( object );
 
 		object.onAfterRender( _this, scene, camera, geometry, material, group );
 		currentRenderState = renderStates.get( scene, _currentArrayCamera || camera );
