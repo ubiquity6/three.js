@@ -643,47 +643,11 @@ function WebGLRenderer( parameters ) {
 
 		state.disableUnusedAttributes();
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
-
-			if ( ! object.occlusionQuery ) {
-
-				object.occlusionQuery = _gl.createQuery();
-
-			}
-
-			if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT_AVAILABLE ) ) {
-
-				object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT );
-				object.queryInProgress = false;
-
-				if ( object.occluded ) {
-
-					console.log( 'Detected occluded object!' );
-
-				}
-
-			}
-
-			if ( ! object.queryInProgress ) {
-
-				_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
-
-			}
-
-		}
+		this.beginOcclusionQuery( object );
 
 		_gl.drawArrays( _gl.TRIANGLES, 0, object.count );
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
-
-			if ( ! object.queryInProgress ) {
-
-				_gl.endQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE );
-				object.queryInProgress = true;
-
-			}
-
-		}
+		this.endOcclusionQuery( object );
 
 		object.count = 0;
 
@@ -844,6 +808,28 @@ function WebGLRenderer( parameters ) {
 
 		}
 
+		this.beginOcclusionQuery( object );
+
+		if ( geometry && geometry.isInstancedBufferGeometry ) {
+
+			if ( geometry.maxInstancedCount > 0 ) {
+
+				renderer.renderInstances( geometry, drawStart, drawCount );
+
+			}
+
+		} else {
+
+			renderer.render( drawStart, drawCount );
+
+		}
+
+		this.endOcclusionQuery( object );
+
+	};
+
+	this.beginOcclusionQuery = function ( object ) {
+
 		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
 
 			if ( ! object.occlusionQuery ) {
@@ -867,20 +853,9 @@ function WebGLRenderer( parameters ) {
 
 		}
 
+	};
 
-		if ( geometry && geometry.isInstancedBufferGeometry ) {
-
-			if ( geometry.maxInstancedCount > 0 ) {
-
-				renderer.renderInstances( geometry, drawStart, drawCount );
-
-			}
-
-		} else {
-
-			renderer.render( drawStart, drawCount );
-
-		}
+	this.endOcclusionQuery = function ( object ) {
 
 		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
 
@@ -892,7 +867,6 @@ function WebGLRenderer( parameters ) {
 			}
 
 		}
-
 
 	};
 
