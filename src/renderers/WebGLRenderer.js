@@ -83,6 +83,10 @@ function WebGLRenderer( parameters ) {
 	this.autoClearDepth = true;
 	this.autoClearStencil = true;
 
+	// occlusion tracking
+
+	this.occlusionTrackingEnabled = false;
+
 	// scene graph
 
 	this.sortObjects = true;
@@ -822,7 +826,7 @@ function WebGLRenderer( parameters ) {
 
 	this.beginOcclusionQuery = function ( object ) {
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+		if ( capabilities.isWebGL2 && this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
 
 			if ( ! object.occlusionQuery ) {
 
@@ -849,7 +853,7 @@ function WebGLRenderer( parameters ) {
 
 	this.endOcclusionQuery = function ( object ) {
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
+		if ( capabilities.isWebGL2 && this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
 
 			if ( ! object.queryInProgress ) {
 

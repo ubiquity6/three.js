@@ -118,6 +118,7 @@
 				var context = canvas.getContext( 'webgl2', { alpha: false } );
 				renderer = new THREE.WebGLRenderer( { canvas: canvas, context: context } );
 				renderer.shadowMap.enabled = true;
+				renderer.occlusionTrackingEnabled = true;
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				window.addEventListener( 'resize', onWindowResize, false );
