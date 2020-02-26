@@ -22674,47 +22674,11 @@ function WebGLRenderer( parameters ) {
 
 		state.disableUnusedAttributes();
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
-
-			if ( ! object.occlusionQuery ) {
-
-				object.occlusionQuery = _gl.createQuery();
-
-			}
-
-			if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, 34919 ) ) {
-
-				object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, 34918 );
-				object.queryInProgress = false;
-
-				if ( object.occluded ) {
-
-					console.log( 'Detected occluded object!' );
-
-				}
-
-			}
-
-			if ( ! object.queryInProgress ) {
-
-				_gl.beginQuery( 36202, object.occlusionQuery );
-
-			}
-
-		}
+		this.beginOcclusionQuery( object );
 
 		_gl.drawArrays( 4, 0, object.count );
 
-		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
-
-			if ( ! object.queryInProgress ) {
-
-				_gl.endQuery( 36202 );
-				object.queryInProgress = true;
-
-			}
-
-		}
+		this.endOcclusionQuery( object );
 
 		object.count = 0;
 
@@ -22875,6 +22839,28 @@ function WebGLRenderer( parameters ) {
 
 		}
 
+		this.beginOcclusionQuery( object );
+
+		if ( geometry && geometry.isInstancedBufferGeometry ) {
+
+			if ( geometry.maxInstancedCount > 0 ) {
+
+				renderer.renderInstances( geometry, drawStart, drawCount );
+
+			}
+
+		} else {
+
+			renderer.render( drawStart, drawCount );
+
+		}
+
+		this.endOcclusionQuery( object );
+
+	};
+
+	this.beginOcclusionQuery = function ( object ) {
+
 		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
 
 			if ( ! object.occlusionQuery ) {
@@ -22898,20 +22884,9 @@ function WebGLRenderer( parameters ) {
 
 		}
 
+	};
 
-		if ( geometry && geometry.isInstancedBufferGeometry ) {
-
-			if ( geometry.maxInstancedCount > 0 ) {
-
-				renderer.renderInstances( geometry, drawStart, drawCount );
-
-			}
-
-		} else {
-
-			renderer.render( drawStart, drawCount );
-
-		}
+	this.endOcclusionQuery = function ( object ) {
 
 		if ( capabilities.isWebGL2 && object.occlusionTrackingEnabled ) {
 
@@ -22923,7 +22898,6 @@ function WebGLRenderer( parameters ) {
 			}
 
 		}
-
 
 	};
 
