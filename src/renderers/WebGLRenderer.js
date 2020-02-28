@@ -826,13 +826,7 @@ function WebGLRenderer( parameters ) {
 
 	this.beginOcclusionQuery = function ( object ) {
 
-		if ( capabilities.isWebGL2 && this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
-
-			if ( ! object.occlusionQuery ) {
-
-				object.occlusionQuery = _gl.createQuery();
-
-			}
+		if ( capabilities.isWebGL2 ) {
 
 			if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT_AVAILABLE ) ) {
 
@@ -841,10 +835,19 @@ function WebGLRenderer( parameters ) {
 
 			}
 
-			if ( ! object.queryInProgress ) {
+			if ( this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
 
-				_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
+				if ( ! object.occlusionQuery ) {
 
+					object.occlusionQuery = _gl.createQuery();
+
+				}
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
+
+				}
 			}
 
 		}
