@@ -845,7 +845,7 @@ function WebGLRenderer( parameters ) {
 
 				if ( ! object.queryInProgress ) {
 
-					_gl.beginQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE, object.occlusionQuery );
+					_gl.beginQuery( _gl.ANY_SAMPLES_PASSED, object.occlusionQuery );
 
 				}
 			}
@@ -860,7 +860,7 @@ function WebGLRenderer( parameters ) {
 
 			if ( ! object.queryInProgress ) {
 
-				_gl.endQuery( _gl.ANY_SAMPLES_PASSED_CONSERVATIVE );
+				_gl.endQuery( _gl.ANY_SAMPLES_PASSED );
 				object.queryInProgress = true;
 
 			}

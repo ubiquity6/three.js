@@ -22882,7 +22882,7 @@
 
 					if ( ! object.queryInProgress ) {
 
-						_gl.beginQuery( 36202, object.occlusionQuery );
+						_gl.beginQuery( 35887, object.occlusionQuery );
 
 					}
 				}
@@ -22897,7 +22897,7 @@
 
 				if ( ! object.queryInProgress ) {
 
-					_gl.endQuery( 36202 );
+					_gl.endQuery( 35887 );
 					object.queryInProgress = true;
 
 				}
