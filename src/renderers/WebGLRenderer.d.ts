@@ -130,6 +130,12 @@ export class WebGLRenderer implements Renderer {
   autoClearStencil: boolean;
 
   /**
+   * If occlusionTrackingEnabled is true, defines whether the renderer should issue WebGL2 occlusion queries
+   * for each rendered object. Default is false.
+   */
+  occlusionTrackingEnabled: boolean;
+
+  /**
    * Defines whether the renderer should sort objects. Default is true.
    */
   sortObjects: boolean;

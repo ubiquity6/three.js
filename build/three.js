@@ -8204,6 +8204,7 @@
 		this.type = 'Object3D';
 		this.occluded = false;
 		this.occlusionTrackingEnabled = false;
+		this.queryInProgress = false;
 
 		this.parent = null;
 		this.children = [];

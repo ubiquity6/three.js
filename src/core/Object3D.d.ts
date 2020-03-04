@@ -41,6 +41,26 @@ export class Object3D extends EventDispatcher {
   type: string;
 
   /**
+   * Whether or not the object is currently occluded. Only
+   * updated if occulusion tracking is enabled (below).
+   */
+  occluded: boolean;
+
+  /**
+   * Whether or not occlusion tarcking is enabled for this object.
+   * If true, render calls will make WebGL queries for
+   * ANY_SAMPLES_PASSED (which reports whether any samples for
+   * this object passed the depth test).
+   */
+  occlusionTrackingEnabled: boolean;
+
+  /**
+   * Whether there is an outstanding occlusion queried for this
+   * object where the result has yet to be read back from the GPU.
+   */
+  queryInProgress: boolean;
+
+  /**
    * Object's parent in the scene graph.
    */
   parent: Object3D | null;
