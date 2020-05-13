@@ -5327,6 +5327,9 @@
 
 		this.name = '';
 		this.type = 'Object3D';
+		this.occluded = false;
+		this.occlusionTrackingEnabled = false;
+		this.queryInProgress = false;
 
 		this.parent = null;
 		this.children = [];
@@ -16127,6 +16130,22 @@
 						extension = gl.getExtension( 'WEBGL_compressed_texture_pvrtc' ) || gl.getExtension( 'WEBKIT_WEBGL_compressed_texture_pvrtc' );
 						break;
 
+					case 'ANGLE_instanced_arrays':
+						extension = gl.getExtension( 'ANGLE_instanced_arrays') || gl.getExtension( 'EXT_instanced_arrays');
+						
+						if(!extension && 
+							typeof gl.drawElementsInstanced === 'function' && 
+							typeof gl.vertexAttribDivisor === 'function' && 
+							typeof gl.drawArraysInstanced === 'function') {
+							extension = {
+								drawElementsInstancedANGLE: gl.drawElementsInstanced.bind(gl),
+								vertexAttribDivisorANGLE: gl.vertexAttribDivisor.bind(gl),
+								drawArraysInstancedANGLE: gl.drawArraysInstanced.bind(gl),
+								isWebGL2:true
+							};
+						}
+						break;
+
 					default:
 						extension = gl.getExtension( name );
 
@@ -23562,6 +23581,10 @@
 		this.autoClearDepth = true;
 		this.autoClearStencil = true;
 
+		// occlusion tracking
+
+		this.occlusionTrackingEnabled = false;
+
 		// scene graph
 
 		this.sortObjects = true;
@@ -24307,7 +24330,7 @@
 
 				} else {
 
-					renderer.setMode( 4 );
+							renderer.setMode( 4 );
 
 				}
 
@@ -24359,11 +24382,61 @@
 
 		};
 
+		this.beginOcclusionQuery = function ( object ) {
+
+			if ( capabilities.isWebGL2 ) {
+
+				if ( object.queryInProgress && _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT_AVAILABLE ) ) {
+
+					object.occluded = ! _gl.getQueryParameter( object.occlusionQuery, _gl.QUERY_RESULT );
+					object.queryInProgress = false;
+
+				}
+
+				if ( this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
+
+					if ( ! object.occlusionQuery ) {
+
+						object.occlusionQuery = _gl.createQuery();
+
+					}
+
+					if ( ! object.queryInProgress ) {
+
+						_gl.beginQuery( _gl.ANY_SAMPLES_PASSED, object.occlusionQuery );
+
+					}
+				}
+
+			}
+
+		};
+
+		this.endOcclusionQuery = function ( object ) {
+
+			if ( capabilities.isWebGL2 && this.occlusionTrackingEnabled && object.occlusionTrackingEnabled ) {
+
+				if ( ! object.queryInProgress ) {
+
+					_gl.endQuery( _gl.ANY_SAMPLES_PASSED );
+					object.queryInProgress = true;
+
+				}
+
+			}
+
+		};
+
 		function setupVertexAttributes( object, geometry, material, program ) {
 
-			if ( capabilities.isWebGL2 === false && ( object.isInstancedMesh || geometry.isInstancedBufferGeometry ) ) {
+			if ( geometry && geometry.isInstancedBufferGeometry & ! capabilities.isWebGL2 ) {
 
-				if ( extensions.get( 'ANGLE_instanced_arrays' ) === null ) { return; }
+				if ( extensions.get( 'ANGLE_instanced_arrays' ) === null ) {
+
+					console.error( 'THREE.WebGLRenderer.setupVertexAttributes: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.' );
+					return;
+
+				}
 
 			}
 
@@ -24546,7 +24619,7 @@
 								initMaterial( object.material[ i ], scene, object );
 								compiled[ object.material[ i ].uuid ] = true;
 
-							}
+						}
 
 						}
 
@@ -24789,9 +24862,9 @@
 
 						if ( material.visible ) {
 
-							currentRenderList.push( object, geometry, material, groupOrder, _vector3.z, null );
+						currentRenderList.push( object, geometry, material, groupOrder, _vector3.z, null );
 
-						}
+					}
 
 					}
 
@@ -24814,7 +24887,7 @@
 
 						if ( object.skeleton.frame !== info.render.frame ) {
 
-							object.skeleton.update();
+						object.skeleton.update();
 							object.skeleton.frame = info.render.frame;
 
 						}
@@ -24895,7 +24968,7 @@
 
 						if ( object.layers.test( camera2.layers ) ) {
 
-							state.viewport( _currentViewport.copy( camera2.viewport ) );
+								state.viewport( _currentViewport.copy( camera2.viewport ) );
 
 							currentRenderState.setupLights( camera2 );
 
@@ -24925,6 +24998,8 @@
 			object.modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, object.matrixWorld );
 			object.normalMatrix.getNormalMatrix( object.modelViewMatrix );
 
+			_this.beginOcclusionQuery( object );
+
 			if ( object.isImmediateRenderObject ) {
 
 				var program = setProgram( camera, scene, material, object );
@@ -24942,6 +25017,8 @@
 				_this.renderBufferDirect( camera, scene, geometry, material, object, group );
 
 			}
+
+			_this.endOcclusionQuery( object );
 
 			object.onAfterRender( _this, scene, camera, geometry, material, group );
 			currentRenderState = renderStates.get( scene, _currentArrayCamera || camera );
@@ -25147,7 +25224,7 @@
 
 					initMaterial( material, scene, object );
 
-				}
+			}
 
 			} else {
 
@@ -25351,12 +25428,12 @@
 				} else if ( material.isMeshToonMaterial ) {
 
 					refreshUniformsCommon( m_uniforms, material );
-					refreshUniformsToon( m_uniforms, material );
+						refreshUniformsToon( m_uniforms, material );
 
 				} else if ( material.isMeshPhongMaterial ) {
 
 					refreshUniformsCommon( m_uniforms, material );
-					refreshUniformsPhong( m_uniforms, material );
+						refreshUniformsPhong( m_uniforms, material );
 
 				} else if ( material.isMeshStandardMaterial ) {
 
@@ -25649,7 +25726,7 @@
 
 			if ( material.map ) {
 
-				uniforms.map.value = material.map;
+			uniforms.map.value = material.map;
 
 			}
 
@@ -25697,7 +25774,7 @@
 
 			if ( material.map ) {
 
-				uniforms.map.value = material.map;
+			uniforms.map.value = material.map;
 
 			}
 
@@ -26062,13 +26139,13 @@
 
 			_framebuffer = value;
 
-		};
+			};
 
 		this.getActiveCubeFace = function () {
 
 			return _currentActiveCubeFace;
 
-		};
+			};
 
 		this.getActiveMipmapLevel = function () {
 
@@ -26267,11 +26344,11 @@
 
 					_gl.compressedTexSubImage2D( 3553, level, position.x, position.y, srcTexture.mipmaps[ 0 ].width, srcTexture.mipmaps[ 0 ].height, glFormat, srcTexture.mipmaps[ 0 ].data );
 
-				} else {
+			} else {
 
 					_gl.texSubImage2D( 3553, level, position.x, position.y, glFormat, glType, srcTexture.image );
 
-				}
+			}
 
 			}
 
