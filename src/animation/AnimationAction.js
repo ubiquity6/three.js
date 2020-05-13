@@ -1,4 +1,4 @@
-import { WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, LoopPingPong, LoopOnce, LoopRepeat } from '../constants.js';
+import { WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, LoopPingPong, LoopOnce, LoopRepeat, NormalAnimationBlendMode, AdditiveAnimationBlendMode } from '../constants.js';
 
 /**
  *
@@ -11,11 +11,12 @@ import { WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, LoopPingPong, L
  *
  */
 
-function AnimationAction( mixer, clip, localRoot ) {
+function AnimationAction( mixer, clip, localRoot, blendMode ) {
 
 	this._mixer = mixer;
 	this._clip = clip;
 	this._localRoot = localRoot || null;
+	this.blendMode = blendMode || clip.blendMode;
 
 	var tracks = clip.tracks,
 		nTracks = tracks.length,
@@ -36,13 +37,13 @@ function AnimationAction( mixer, clip, localRoot ) {
 
 	this._interpolantSettings = interpolantSettings;
 
-	this._interpolants = interpolants;	// bound by the mixer
+	this._interpolants = interpolants; // bound by the mixer
 
 	// inside: PropertyMixer (managed by the mixer)
 	this._propertyBindings = new Array( nTracks );
 
-	this._cacheIndex = null;			// for the memory manager
-	this._byClipCacheIndex = null;		// for the memory manager
+	this._cacheIndex = null; // for the memory manager
+	this._byClipCacheIndex = null; // for the memory manager
 
 	this._timeScaleInterpolant = null;
 	this._weightInterpolant = null;
@@ -64,15 +65,15 @@ function AnimationAction( mixer, clip, localRoot ) {
 	this.weight = 1;
 	this._effectiveWeight = 1;
 
-	this.repetitions = Infinity; 		// no. of repetitions when looping
+	this.repetitions = Infinity; // no. of repetitions when looping
 
-	this.paused = false;				// true -> zero effective time scale
-	this.enabled = true;				// false -> zero effective weight
+	this.paused = false; // true -> zero effective time scale
+	this.enabled = true; // false -> zero effective weight
 
-	this.clampWhenFinished 	= false;	// keep feeding the last frame?
+	this.clampWhenFinished = false;// keep feeding the last frame?
 
-	this.zeroSlopeAtStart 	= true;		// for smooth interpolation w/o separate
-	this.zeroSlopeAtEnd		= true;		// clips for start, loop and end
+	this.zeroSlopeAtStart = true;// for smooth interpolation w/o separate
+	this.zeroSlopeAtEnd = true;// clips for start, loop and end
 
 }
 
@@ -101,9 +102,9 @@ Object.assign( AnimationAction.prototype, {
 		this.paused = false;
 		this.enabled = true;
 
-		this.time = 0;			// restart clip
-		this._loopCount = - 1;	// forget previous loops
-		this._startTime = null;	// forget scheduling
+		this.time = 0; // restart clip
+		this._loopCount = - 1;// forget previous loops
+		this._startTime = null;// forget scheduling
 
 		return this.stopFading().stopWarping();
 
@@ -112,7 +113,7 @@ Object.assign( AnimationAction.prototype, {
 	isRunning: function () {
 
 		return this.enabled && ! this.paused && this.timeScale !== 0 &&
-				this._startTime === null && this._mixer._isActiveAction( this );
+			this._startTime === null && this._mixer._isActiveAction( this );
 
 	},
 
@@ -374,10 +375,28 @@ Object.assign( AnimationAction.prototype, {
 			var interpolants = this._interpolants;
 			var propertyMixers = this._propertyBindings;
 
-			for ( var j = 0, m = interpolants.length; j !== m; ++ j ) {
+			switch ( this.blendMode ) {
 
-				interpolants[ j ].evaluate( clipTime );
-				propertyMixers[ j ].accumulate( accuIndex, weight );
+				case AdditiveAnimationBlendMode:
+
+					for ( var j = 0, m = interpolants.length; j !== m; ++ j ) {
+
+						interpolants[ j ].evaluate( clipTime );
+						propertyMixers[ j ].accumulateAdditive( weight );
+
+					}
+
+					break;
+
+				case NormalAnimationBlendMode:
+				default:
+
+					for ( var j = 0, m = interpolants.length; j !== m; ++ j ) {
+
+						interpolants[ j ].evaluate( clipTime );
+						propertyMixers[ j ].accumulate( accuIndex, weight );
+
+					}
 
 			}
 
@@ -468,13 +487,19 @@ Object.assign( AnimationAction.prototype, {
 	_updateTime: function ( deltaTime ) {
 
 		var time = this.time + deltaTime;
+		var duration = this._clip.duration;
+		var loop = this.loop;
+		var loopCount = this._loopCount;
 
-		if ( deltaTime === 0 ) return time;
+		var pingPong = ( loop === LoopPingPong );
 
-		var duration = this._clip.duration,
+		if ( deltaTime === 0 ) {
 
-			loop = this.loop,
-			loopCount = this._loopCount;
+			if ( loopCount === - 1 ) return time;
+
+			return ( pingPong && ( loopCount & 1 ) === 1 ) ? duration - time : time;
+
+		}
 
 		if ( loop === LoopOnce ) {
 
@@ -497,10 +522,18 @@ Object.assign( AnimationAction.prototype, {
 
 					time = 0;
 
-				} else break handle_stop;
+				} else {
+
+					this.time = time;
+
+					break handle_stop;
+
+				}
 
 				if ( this.clampWhenFinished ) this.paused = true;
 				else this.enabled = false;
+
+				this.time = time;
 
 				this._mixer.dispatchEvent( {
 					type: 'finished', action: this,
@@ -510,8 +543,6 @@ Object.assign( AnimationAction.prototype, {
 			}
 
 		} else { // repetitive Repeat or PingPong
-
-			var pingPong = ( loop === LoopPingPong );
 
 			if ( loopCount === - 1 ) {
 
@@ -555,6 +586,8 @@ Object.assign( AnimationAction.prototype, {
 
 					time = deltaTime > 0 ? duration : 0;
 
+					this.time = time;
+
 					this._mixer.dispatchEvent( {
 						type: 'finished', action: this,
 						direction: deltaTime > 0 ? 1 : - 1
@@ -579,11 +612,17 @@ Object.assign( AnimationAction.prototype, {
 
 					this._loopCount = loopCount;
 
+					this.time = time;
+
 					this._mixer.dispatchEvent( {
 						type: 'loop', action: this, loopDelta: loopDelta
 					} );
 
 				}
+
+			} else {
+
+				this.time = time;
 
 			}
 
@@ -591,14 +630,12 @@ Object.assign( AnimationAction.prototype, {
 
 				// invert time for the "pong round"
 
-				this.time = time;
 				return duration - time;
 
 			}
 
 		}
 
-		this.time = time;
 		return time;
 
 	},
@@ -609,8 +646,8 @@ Object.assign( AnimationAction.prototype, {
 
 		if ( pingPong ) {
 
-			settings.endingStart 	= ZeroSlopeEnding;
-			settings.endingEnd		= ZeroSlopeEnding;
+			settings.endingStart = ZeroSlopeEnding;
+			settings.endingEnd = ZeroSlopeEnding;
 
 		} else {
 
@@ -655,8 +692,10 @@ Object.assign( AnimationAction.prototype, {
 		var times = interpolant.parameterPositions,
 			values = interpolant.sampleValues;
 
-		times[ 0 ] = now; 				values[ 0 ] = weightNow;
-		times[ 1 ] = now + duration;	values[ 1 ] = weightThen;
+		times[ 0 ] = now;
+		values[ 0 ] = weightNow;
+		times[ 1 ] = now + duration;
+		values[ 1 ] = weightThen;
 
 		return this;
 
