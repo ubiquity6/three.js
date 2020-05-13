@@ -10,14 +10,14 @@
 
 THREE.BVHLoader = function ( manager ) {
 
-	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+	THREE.Loader.call( this, manager );
 
 	this.animateBonePositions = true;
 	this.animateBoneRotations = true;
 
 };
 
-THREE.BVHLoader.prototype = {
+THREE.BVHLoader.prototype = Object.assign( Object.create( THREE.Loader.prototype ), {
 
 	constructor: THREE.BVHLoader,
 
@@ -32,13 +32,6 @@ THREE.BVHLoader.prototype = {
 			onLoad( scope.parse( text ) );
 
 		}, onProgress, onError );
-
-	},
-
-	setPath: function ( value ) {
-
-		this.path = value;
-		return this;
 
 	},
 
@@ -389,6 +382,7 @@ THREE.BVHLoader.prototype = {
 			var line;
 			// skip empty lines
 			while ( ( line = lines.shift().trim() ).length === 0 ) { }
+
 			return line;
 
 		}
@@ -411,4 +405,4 @@ THREE.BVHLoader.prototype = {
 
 	}
 
-};
+} );

@@ -89,6 +89,7 @@ THREE.Fire = function ( geometry, options ) {
 						this.sourceData[ stride ] = Math.min( Math.max( density, 0.0 ), 1.0 ) * 255;
 
 					}
+
 					if ( windX != null ) {
 
 						var wind = Math.min( Math.max( windX, - 1.0 ), 1.0 );
@@ -96,6 +97,7 @@ THREE.Fire = function ( geometry, options ) {
 						this.sourceData[ stride + 1 ] = wind;
 
 					}
+
 					if ( windY != null ) {
 
 						var wind = Math.min( Math.max( windY, - 1.0 ), 1.0 );
@@ -145,8 +147,8 @@ THREE.Fire = function ( geometry, options ) {
 
 	this.field0.background = new THREE.Color( 0x000000 );
 
-	if ( ! THREE.Math.isPowerOfTwo( textureWidth ) ||
-		 ! THREE.Math.isPowerOfTwo( textureHeight ) ) {
+	if ( ! THREE.MathUtils.isPowerOfTwo( textureWidth ) ||
+		 ! THREE.MathUtils.isPowerOfTwo( textureHeight ) ) {
 
 		this.field0.texture.generateMipmaps = false;
 		this.field1.texture.generateMipmaps = false;
@@ -273,6 +275,7 @@ THREE.Fire = function ( geometry, options ) {
 		shader = THREE.Fire.ColorShader;
 
 	}
+
 	this.material = new THREE.ShaderMaterial( {
 		uniforms: shader.uniforms,
 		vertexShader: shader.vertexShader,
@@ -319,7 +322,7 @@ THREE.Fire = function ( geometry, options ) {
 	this.saveRenderState = function ( renderer ) {
 
 		this.savedRenderTarget = renderer.getRenderTarget();
-		this.savedVrEnabled = renderer.vr.enabled;
+		this.savedXrEnabled = renderer.xr.enabled;
 		this.savedShadowAutoUpdate = renderer.shadowMap.autoUpdate;
 		this.savedAntialias = renderer.antialias;
 		this.savedToneMapping = renderer.toneMapping;
@@ -328,7 +331,7 @@ THREE.Fire = function ( geometry, options ) {
 
 	this.restoreRenderState = function ( renderer ) {
 
-		renderer.vr.enabled = this.savedVrEnabled;
+		renderer.xr.enabled = this.savedXrEnabled;
 		renderer.shadowMap.autoUpdate = this.savedShadowAutoUpdate;
 		renderer.setRenderTarget( this.savedRenderTarget );
 		renderer.antialias = this.savedAntialias;
@@ -342,7 +345,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		this.sourceMaterial.uniforms[ "densityMap" ].value = this.field0.texture;
 
-		renderer.render( this.fieldScene, this.orthoCamera, this.field1 );
+		renderer.setRenderTarget( this.field1 );
+		renderer.render( this.fieldScene, this.orthoCamera );
 
 		this.sourceMesh.visible = false;
 
@@ -356,7 +360,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		this.diffuseMaterial.uniforms[ "densityMap" ].value = this.field0.texture;
 
-		renderer.render( this.fieldScene, this.orthoCamera, this.field1 );
+		renderer.setRenderTarget( this.field1 );
+		renderer.render( this.fieldScene, this.orthoCamera );
 
 		this.diffuseMesh.visible = false;
 
@@ -370,7 +375,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		this.driftMaterial.uniforms[ "densityMap" ].value = this.field0.texture;
 
-		renderer.render( this.fieldScene, this.orthoCamera, this.field1 );
+		renderer.setRenderTarget( this.field1 );
+		renderer.render( this.fieldScene, this.orthoCamera );
 
 		this.driftMesh.visible = false;
 
@@ -386,7 +392,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		this.projMaterial1.uniforms[ "densityMap" ].value = this.field0.texture;
 
-		renderer.render( this.fieldScene, this.orthoCamera, this.fieldProj );
+		renderer.setRenderTarget( this.fieldProj );
+		renderer.render( this.fieldScene, this.orthoCamera );
 
 		this.projMesh1.visible = false;
 
@@ -398,7 +405,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		for ( var i = 0; i < 20; i ++ ) {
 
-			renderer.render( this.fieldScene, this.orthoCamera, this.field1 );
+			renderer.setRenderTarget( this.field1 );
+			renderer.render( this.fieldScene, this.orthoCamera );
 
 			var temp = this.field1;
 			this.field1 = this.fieldProj;
@@ -417,7 +425,8 @@ THREE.Fire = function ( geometry, options ) {
 
 		this.projMesh3.visible = true;
 
-		renderer.render( this.fieldScene, this.orthoCamera, this.field1 );
+		renderer.setRenderTarget( this.field1 );
+		renderer.render( this.fieldScene, this.orthoCamera );
 
 		this.projMesh3.visible = false;
 
@@ -425,21 +434,23 @@ THREE.Fire = function ( geometry, options ) {
 
 	};
 
-	this.onBeforeRender = function ( renderer, scene, camera ) {
+	this.onBeforeRender = function ( renderer ) {
 
 		var delta = this.clock.getDelta();
+
 		if ( delta > 0.1 ) {
 
 			delta = 0.1;
 
 		}
+
 		var dt = delta * ( this.speed * 0.1 );
 
 		this.configShaders( dt );
 
 		this.saveRenderState( renderer );
 
-		renderer.vr.enabled = false; // Avoid camera modification and recursion
+		renderer.xr.enabled = false; // Avoid camera modification and recursion
 		renderer.shadowMap.autoUpdate = false; // Avoid re-computing shadows
 		renderer.antialias = false;
 		renderer.toneMapping = THREE.NoToneMapping;
@@ -454,11 +465,13 @@ THREE.Fire = function ( geometry, options ) {
 		this.renderSource( renderer );
 
 		this.clearDiffuse();
+
 		for ( var i = 0; i < 21; i ++ ) {
 
 			this.renderDiffuse( renderer );
 
 		}
+
 		this.configShaders( dt );
 		this.renderDiffuse( renderer );
 
@@ -492,11 +505,9 @@ THREE.Fire.SourceShader = {
 
 	uniforms: {
 		'sourceMap': {
-			type: 't',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -551,39 +562,30 @@ THREE.Fire.DiffuseShader = {
 
 	uniforms: {
 		'oneOverWidth': {
-			type: 'f',
 			value: null
 		},
 		'oneOverHeight': {
-			type: 'f',
 			value: null
 		},
 		'diffuse': {
-			type: 'f',
 			value: null
 		},
 		'viscosity': {
-			type: 'f',
 			value: null
 		},
 		'expansion': {
-			type: 'f',
 			value: null
 		},
 		'swirl': {
-			type: 'f',
 			value: null
 		},
 		'drag': {
-			type: 'f',
 			value: null
 		},
 		'burnRate': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -668,23 +670,18 @@ THREE.Fire.DriftShader = {
 
 	uniforms: {
 		'oneOverWidth': {
-			type: 'f',
 			value: null
 		},
 		'oneOverHeight': {
-			type: 'f',
 			value: null
 		},
 		'windVector': {
-			type: 'v2',
 			value: new THREE.Vector2( 0.0, 0.0 )
 		},
 		'airSpeed': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -753,15 +750,12 @@ THREE.Fire.ProjectionShader1 = {
 
 	uniforms: {
 		'oneOverWidth': {
-			type: 'f',
 			value: null
 		},
 		'oneOverHeight': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -813,15 +807,12 @@ THREE.Fire.ProjectionShader2 = {
 
 	uniforms: {
 		'oneOverWidth': {
-			type: 'f',
 			value: null
 		},
 		'oneOverHeight': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -874,19 +865,15 @@ THREE.Fire.ProjectionShader3 = {
 
 	uniforms: {
 		'oneOverWidth': {
-			type: 'f',
 			value: null
 		},
 		'oneOverHeight': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		},
 		'projMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -944,23 +931,18 @@ THREE.Fire.ColorShader = {
 
 	uniforms: {
 		'color1': {
-			type: 'c',
 			value: null
 		},
 		'color2': {
-			type: 'c',
 			value: null
 		},
 		'color3': {
-			type: 'c',
 			value: null
 		},
 		'colorBias': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
@@ -1008,23 +990,18 @@ THREE.Fire.DebugShader = {
 
 	uniforms: {
 		'color1': {
-			type: 'c',
 			value: null
 		},
 		'color2': {
-			type: 'c',
 			value: null
 		},
 		'color3': {
-			type: 'c',
 			value: null
 		},
 		'colorBias': {
-			type: 'f',
 			value: null
 		},
 		'densityMap': {
-			type: 't',
 			value: null
 		}
 	},
